@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { AuthService } from './../../shared/services/auth/auth.service';
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
@@ -18,12 +20,21 @@ import { FormGroup } from '@angular/forms';
 })
 
 export class RegisterComponent{
-    addUser(event: FormGroup){
+
+    constructor(
+        private router: Router,
+        private authService: AuthService
+    ){}
+
+    error : string;
+
+    async addUser(event: FormGroup){
         try{
-            //add user logic
+            await this.authService.addUser(event.value.email, event.value.password);
+            this.router.navigate(['/']);
         }
         catch(err){
-            //errors
+            this.error = err;
         }
     }
 }
