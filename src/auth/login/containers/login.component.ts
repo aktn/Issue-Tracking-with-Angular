@@ -9,6 +9,9 @@ import { FormGroup } from '@angular/forms';
             <auth-form (submitted)="login($event)">
                 <h3>Login</h3>
                 <button type="submit">Login</button>
+                <div *ngIf="error" class="error">
+                    {{ error }}
+                </div>
             </auth-form> 
         </div>
     `

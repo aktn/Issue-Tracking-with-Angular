@@ -6,14 +6,24 @@ import { FormGroup } from '@angular/forms';
     styleUrls: ['register.component.scss'],
     template:`
     <div>   
-        <auth-form>
+        <auth-form (submitted)="addUser($event)">
             <h3>Add user</h3>
             <button type="submit">Add</button>
+            <div *ngIf="error" class="error">
+                {{ error }}
+            </div>
         </auth-form>
     </div>
     `
 })
 
 export class RegisterComponent{
-
+    addUser(event: FormGroup){
+        try{
+            //add user logic
+        }
+        catch(err){
+            //errors
+        }
+    }
 }
