@@ -36,4 +36,8 @@ export class IssueService{
     createIssue(issue: Issue){
         return this.db.list(`issues`).push(issue);
     }
+
+    deleteIssue(key: string){
+        return this.db.list(`issues`).remove(key);
+    }
 }

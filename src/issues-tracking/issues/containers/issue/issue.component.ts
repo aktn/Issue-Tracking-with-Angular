@@ -18,8 +18,6 @@ export class IssueComponent{
         private issueService: IssueService
     ){}
 
-    
-
     async createIssue(event: Issue){
         await this.issueService.createIssue(event);
         console.log(event);
