@@ -1,3 +1,5 @@
+import { User } from './auth/shared/services/auth/auth.service';
+import { Issue } from './issues-tracking/issues/services/issues/issue.service';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -5,10 +7,15 @@ import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 export interface State {
-  [key: string]: any
+  [key: string]: any,
+  user: User,
+  issues: Issue[]
 }
 
-const state: State = {};
+const state: State = {
+  user: undefined,
+  issues: undefined
+};
 
 export class Store {
 

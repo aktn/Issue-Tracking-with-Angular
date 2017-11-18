@@ -1,3 +1,4 @@
+import { IssuesTrackingModule } from './../issues-tracking/issues-tracking.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
@@ -19,7 +20,8 @@ export const ROUTES: Routes = [];
   imports: [
     BrowserModule,
     RouterModule.forRoot(ROUTES),
-    AuthModule
+    AuthModule,
+    IssuesTrackingModule
   ],
   declarations: [
     AppComponent
