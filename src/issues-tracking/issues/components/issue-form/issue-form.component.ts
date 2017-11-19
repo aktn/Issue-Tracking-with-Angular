@@ -118,7 +118,7 @@ export class IssueFormComponent implements OnChanges{
         progress: ['', Validators.required],
         version: ['', Validators.required],
         type: ['', Validators.required],
-        createdDate: ['', Validators.required] 
+        createdDate: [this.today, Validators.required] 
     });
 
     @Output()

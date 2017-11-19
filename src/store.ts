@@ -1,3 +1,4 @@
+import { Project } from './issues-tracking/projects/services/projects.service';
 import { User } from './auth/shared/services/auth/auth.service';
 import { Issue } from './issues-tracking/issues/services/issues/issue.service';
 import { Observable } from 'rxjs/Observable';
@@ -9,12 +10,15 @@ import 'rxjs/add/operator/distinctUntilChanged';
 export interface State {
   [key: string]: any,
   user: User,
-  issues: Issue[]
+  issues: Issue[],
+  projects: Project[]
 }
+
 
 const state: State = {
   user: undefined,
-  issues: undefined
+  issues: undefined,
+  projects: undefined
 };
 
 export class Store {
