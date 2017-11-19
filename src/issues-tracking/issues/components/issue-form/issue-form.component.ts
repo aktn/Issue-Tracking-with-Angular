@@ -1,6 +1,6 @@
 import { Issue } from './../../services/issues/issue.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
     selector: 'issue-form',
@@ -71,17 +71,31 @@ import { Component, Output, EventEmitter } from '@angular/core';
                     <textarea formControlName="progress"></textarea>
                 </label>
 
-                <button type="button" (click)="createIssue()">Submit</button>
+                <button type="button" (click)="createIssue()" *ngIf="!exists">Submit</button>
+                <button type="button" (click)="updateIssue()" *ngIf="exists">Update</button>
             </form>
         </div>
     `
 })
 
-export class IssueFormComponent{
+export class IssueFormComponent implements OnChanges{
 
     constructor(
         private fb: FormBuilder
     ){}
+
+    @Input()
+    issue: Issue;
+
+    ngOnChanges(changes: SimpleChanges){
+        if(this.issue && this.issue.title){
+            this.exists = true;
+        }
+
+        const value = this.issue;
+        this.form.patchValue(value);
+        
+    }
 
     users = ['James', 'Michael', 'Kurt', 'Jimmy'];
 
@@ -90,6 +104,8 @@ export class IssueFormComponent{
     types = ['Usability', 'Accessibility', 'Content', 'Other'];
 
     today = Date.now();
+
+    exists = false;
 
     form = this.fb.group({
         title: ['', Validators.required],
@@ -102,7 +118,7 @@ export class IssueFormComponent{
         progress: ['', Validators.required],
         version: ['', Validators.required],
         type: ['', Validators.required],
-        createdDate: [this.today, Validators.required] 
+        createdDate: ['', Validators.required] 
     });
 
     @Output()
@@ -110,5 +126,12 @@ export class IssueFormComponent{
 
     createIssue(){
         this.create.emit(this.form.value);
+    }
+
+    @Output()
+    update = new EventEmitter<Issue>();
+    
+    updateIssue(){
+        this.update.emit(this.form.value);
     }
 }

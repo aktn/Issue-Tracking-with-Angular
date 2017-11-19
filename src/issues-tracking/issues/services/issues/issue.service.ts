@@ -40,4 +40,16 @@ export class IssueService{
     deleteIssue(key: string){
         return this.db.list(`issues`).remove(key);
     }
+
+    getIssue(key: string){
+        if(!key) 
+            return Observable.of({});
+
+        return this.store.select<Issue[]>('issues').filter(Boolean)
+            .map(issues => issues.find((issue: Issue) => issue.$key === key));   
+    }
+
+    updateIssue(key:string, issue: Issue ){
+        return this.db.object(`issues/${key}`).update(issue);
+    }
 }

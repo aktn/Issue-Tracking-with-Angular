@@ -15,7 +15,8 @@ import { IssueService } from './services/issues/issue.service';
 
 export const ROUTES: Routes = [
     { path: 'new', component: IssueComponent },
-    { path: '', component: IssuesComponent }
+    { path: '', component: IssuesComponent },
+    { path: ':id', component: IssueComponent }
 ];
 
 @NgModule({

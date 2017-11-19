@@ -7,10 +7,12 @@ import { Component, Output, Input, EventEmitter } from '@angular/core';
     template:`
         <div>
             Issues list
-            {{ issue.title }}
-            {{ issue.description }}
-            {{ issue.status }}
-            {{ issue.progress }}
+            <a [routerLink]="getRoute(issue)">
+                {{ issue.title }}
+                {{ issue.description }}
+                {{ issue.status }}
+                {{ issue.progress }}
+            </a>
             <div *ngIf="toggled">
                 <button (click)="removeIssue()" type="button">Confirm</button>
                 <button (click)="toggle()" type="button">Cancel</button>
@@ -37,5 +39,9 @@ export class IssuesListComponent{
 
     removeIssue(){
         this.remove.emit(this.issue);
+    }
+
+    getRoute(issue: any){
+        return [`../issues`, issue.$key];
     }
 }
