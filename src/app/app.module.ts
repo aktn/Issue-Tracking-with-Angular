@@ -1,4 +1,3 @@
-import { ProjectModule } from './../issues-tracking/projects/projects.module';
 import { IssuesTrackingModule } from './../issues-tracking/issues-tracking.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';

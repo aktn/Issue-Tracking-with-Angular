@@ -12,6 +12,8 @@ import { IssuesComponent } from './containers/issues.component';
 // service
 import { IssueService } from './services/issues/issue.service';
 
+// feature modules
+import { SharedModule } from './../shared/shared.module';
 
 export const ROUTES: Routes = [
     { path: 'new', component: IssueComponent },
@@ -23,7 +25,8 @@ export const ROUTES: Routes = [
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        RouterModule.forChild(ROUTES)
+        RouterModule.forChild(ROUTES),
+        SharedModule
     ],
     declarations: [
         IssueFormComponent,

@@ -1,7 +1,7 @@
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Injectable } from '@angular/core';
 import { Store } from 'store';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AuthService } from './../../../../auth/shared/services/auth/auth.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
@@ -52,4 +52,15 @@ export class IssueService{
     updateIssue(key:string, issue: Issue ){
         return this.db.object(`issues/${key}`).update(issue);
     }
+
+    searchIssue(start: any, end: any): FirebaseListObservable<any> {
+        return this.db.list('/issues', {
+          query: {
+            orderByChild: 'title',
+            limitToFirst: 10,
+            startAt: start,
+            endAt: end
+          }
+        });
+      }
 }

@@ -6,7 +6,7 @@ import { Component, Output, Input, EventEmitter } from '@angular/core';
     styleUrls: ['issues-list.component.scss'],
     template:`
         <div>
-            Issues list
+         <!--   Issues list
             <a [routerLink]="getRoute(issue)">
                 {{ issue.title }}
                 {{ issue.description }}
@@ -17,7 +17,13 @@ import { Component, Output, Input, EventEmitter } from '@angular/core';
                 <button (click)="removeIssue()" type="button">Confirm</button>
                 <button (click)="toggle()" type="button">Cancel</button>
             </div>
-            <button (click)="toggle()">Delete</button>
+            <button (click)="toggle()">Delete</button> -->
+
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">{{ issue?.severity }}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ issue?.status }}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ issue?.type }}</td>
+            </tr> 
         </div>
     `
     
@@ -44,4 +50,5 @@ export class IssuesListComponent{
     getRoute(issue: any){
         return [`../issues`, issue.$key];
     }
+
 }

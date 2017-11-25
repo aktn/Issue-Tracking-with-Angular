@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SharedModule } from './shared/shared.module';
 
 export const ROUTES: Routes = [
     { path: 'issues', loadChildren: './issues/issues.module#IssuesModule' },
@@ -8,7 +9,8 @@ export const ROUTES: Routes = [
 
 @NgModule({
     imports: [
-        RouterModule.forChild(ROUTES)
+        RouterModule.forChild(ROUTES),
+        SharedModule
     ]
 })
 
