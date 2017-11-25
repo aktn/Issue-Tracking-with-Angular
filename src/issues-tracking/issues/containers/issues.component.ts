@@ -11,7 +11,7 @@ import { Subject } from 'rxjs/Subject'
     template: `
         <div class="issues">
             <a [routerLink]="['../issues/new']">Create New Issue</a>
-            
+            <input type="text" (keydown)="search($event)" placeholder="search ..." class="input">
             <div *ngIf="issues$ | async as issues;  else loading;">
                 <table>  
                     <tr>
@@ -28,6 +28,14 @@ import { Subject } from 'rxjs/Subject'
 
                     <issues-list *ngFor="let issue of issues | orderBy : order : reverse" [issue]="issue" (remove)="onDelete($event)">
                     </issues-list>
+
+                    <div *ngFor="let issue of issues">
+                        <h4>{{issue?.title}}</h4>
+                        <p>
+                            {{issue?.title}}
+                        </p>
+                    </div>
+
                 </table>
             </div>
 
@@ -44,12 +52,17 @@ export class IssuesComponent implements OnInit{
          private store: Store
      ){}
      
-     subscription: Subscription;
-     issues$: Observable<Issue[]>;
+     subscription: Subscription[] = [];
+     issues$: Observable<any[]>;
+     searchLists: any; //For keyword search
     
      ngOnInit(){
         this.issues$ = this.store.select<Issue[]>('issues');
-        this.subscription = this.issueService.issues$.subscribe();   
+        this.subscription = 
+        [
+            this.issueService.issues$.subscribe(), 
+            this.issueService.keywordSearch(this.startAt, this.endAt).subscribe() 
+        ]
      }
 
      onDelete(event: Issue){
@@ -67,10 +80,22 @@ export class IssuesComponent implements OnInit{
          }
          this.order = value;
      }
-    
 
- 
+     /*
+     * Search by keyword
+     */
+     startAt = new Subject();
+     endAt = new Subject();
 
-    
-    
+     lastKeypress: number = 0;
+
+     search($event: any) {
+        if ($event.timeStamp - this.lastKeypress > 200) {
+           let q = $event.target.value
+           this.startAt.next(q);
+           this.endAt.next(q+"\uf8ff");
+         }
+        this.lastKeypress = $event.timeStamp;
+     }
+
 }

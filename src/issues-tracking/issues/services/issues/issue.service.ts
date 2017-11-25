@@ -1,3 +1,4 @@
+import { Issue } from './issue.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Injectable } from '@angular/core';
 import { Store } from 'store';
@@ -8,6 +9,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
+import { start } from 'repl';
 
 export interface Issue{
     $key: string,
@@ -53,14 +55,14 @@ export class IssueService{
         return this.db.object(`issues/${key}`).update(issue);
     }
 
-    searchIssue(start: any, end: any): FirebaseListObservable<any> {
-        return this.db.list('/issues', {
-          query: {
-            orderByChild: 'title',
-            limitToFirst: 10,
-            startAt: start,
-            endAt: end
-          }
-        });
-      }
+     keywordSearch(startAt: any, endAt: any) {
+        return this.db.list(`issues`, {
+            query: {
+                orderByChild: 'title',
+                startAt: startAt,
+                endAt: endAt
+            }
+        }).do(next => this.store.set('issues',next));
+    }
+
 }
