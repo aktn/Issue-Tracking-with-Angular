@@ -1,0 +1,33 @@
+.issues-list{
+    display: flex;
+    &__table{
+        margin: 0; 
+        padding: 10px;
+        display: flex;
+        td{
+            width:200px;
+            word-break: break-all;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e3e6e8;
+        }
+
+        
+    }   
+    
+}
+
+.severity {
+    width: 10px;
+    height: 10px;
+    background: #c0392b;
+    display: block;
+    margin: 8px 10px 0 0;
+    float: left;
+    border-radius: 50%;
+    &.low {
+        background: #2ecc71;
+    }
+    &.medium {
+        background: #c0392b;
+    }
+}

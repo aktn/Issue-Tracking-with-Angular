@@ -5,7 +5,8 @@ import { Component, Output, Input, EventEmitter } from '@angular/core';
     selector: 'issues-list',
     styleUrls: ['issues-list.component.scss'],
     template:`
-        <div>
+        <div class="issues-list">
+            
          <!--   Issues list
             <a [routerLink]="getRoute(issue)">
                 {{ issue.title }}
@@ -18,12 +19,16 @@ import { Component, Output, Input, EventEmitter } from '@angular/core';
                 <button (click)="toggle()" type="button">Cancel</button>
             </div>
             <button (click)="toggle()">Delete</button> -->
-
-            <tr>
-                <td class="mdl-data-table__cell--non-numeric">{{ issue?.severity }}</td>
-                <td class="mdl-data-table__cell--non-numeric">{{ issue?.status }}</td>
-                <td class="mdl-data-table__cell--non-numeric">{{ issue?.type }}</td>
-            </tr> 
+            <table class="issues-list__table">
+                <tr>
+                    <td><a [routerLink]="getRoute(issue)">{{ issue?.title }}</a></td>
+                    <td>{{ issue?.location }}</td>
+                    <td><span class="severity" [class.low]="issue.severity===low" [class.medium]="issue.severity===medium"></span>{{ issue?.severity }}</td>
+                    <td><span class="severity" [style.backgroundColor]="(issue?.status ? '#2ecc71' : '#c0392b')"></span>{{ issue?.status }}</td>
+                    <td>{{ issue?.type }}</td>
+                    <td>{{ issue?.description }}</td>      
+                </tr> 
+            </table>
         </div>
     `
     

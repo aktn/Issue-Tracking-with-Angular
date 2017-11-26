@@ -1,0 +1,52 @@
+:host{
+    margin: 50px 0;
+    display:block;
+}
+
+.issues{
+    position: relative;
+    background: #fff;
+    border: 1px solid #c1cedb;
+    border-radius: 3px;
+    
+    &__title{
+        background: #eaf6fc;
+        padding: 15px;
+        display: flex;
+    }
+
+    h3{
+        font-size: 22px;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-grow: 1;   
+    }
+
+    a{
+        text-decoration: none;
+    }
+
+    &__table{
+        margin: 0 auto; 
+        padding: 10px;
+        display: flex;
+        th{
+           width:200px;
+           text-align: left;
+           padding-bottom: 30px;
+        }
+    }
+   
+}
+
+.input{
+    margin-right: 60%;
+    display:flex;
+    width: 200px;
+    height: 35px;
+}
+
+p{
+    text-align: center;
+}

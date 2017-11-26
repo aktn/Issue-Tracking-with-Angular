@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Store } from 'store';
 import { IssueService, Issue } from './../services/issues/issue.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject'
 
@@ -10,11 +10,17 @@ import { Subject } from 'rxjs/Subject'
     styleUrls: ['issues.component.scss'],
     template: `
         <div class="issues">
-            <a [routerLink]="['../issues/new']">Create New Issue</a>
-            <input type="text" (keydown)="search($event)" placeholder="search ..." class="input">
+            <div class="issues__title">
+                <h3>Issues List</h3>
+                <input type="text" (keydown)="search($event)" placeholder="Search ..." class="input">
+                <a [routerLink]="['../issues/new']">Create New Issue</a>
+            </div>
+            
             <div *ngIf="issues$ | async as issues;  else loading;">
-                <table>  
+                <table class="issues__table">  
                     <tr>
+                        <th>Title </th>
+                        <th>Location</th>
                         <th (click)="setOrder('severity')">
                             Severity <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
                         </th>
@@ -24,19 +30,11 @@ import { Subject } from 'rxjs/Subject'
                         <th (click)="setOrder('type')">
                             Type <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
                         </th>
+                        <th>Description</th>   
                     </tr>
-
-                    <issues-list *ngFor="let issue of issues | orderBy : order : reverse" [issue]="issue" (remove)="onDelete($event)">
-                    </issues-list>
-
-                    <div *ngFor="let issue of issues">
-                        <h4>{{issue?.title}}</h4>
-                        <p>
-                            {{issue?.title}}
-                        </p>
-                    </div>
-
                 </table>
+                <issues-list *ngFor="let issue of issues | orderBy : order : reverse" [issue]="issue" (remove)="onDelete($event)">
+                </issues-list>    
             </div>
 
             <ng-template #loading>
@@ -45,7 +43,7 @@ import { Subject } from 'rxjs/Subject'
     `
 })
 
-export class IssuesComponent implements OnInit{
+export class IssuesComponent implements OnInit, OnDestroy{
 
      constructor(
          private issueService: IssueService,
@@ -96,6 +94,10 @@ export class IssuesComponent implements OnInit{
            this.endAt.next(q+"\uf8ff");
          }
         this.lastKeypress = $event.timeStamp;
+     }
+
+     ngOnDestroy(){
+        this.subscription.forEach(sub => sub.unsubscribe());
      }
 
 }

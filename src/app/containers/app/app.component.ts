@@ -5,8 +5,10 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
   template: `
     <div>
-      Issue Tracking System
-      <router-outlet></router-outlet>
+      <app-nav></app-nav>
+      <div class="wrapper">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   `
 })
