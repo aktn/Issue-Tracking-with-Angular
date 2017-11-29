@@ -11,14 +11,16 @@ export interface State {
   [key: string]: any,
   user: User,
   issues: Issue[],
-  projects: Project[]
+  projects: Project[],
+  assigned: any,
 }
 
 
 const state: State = {
   user: undefined,
   issues: undefined,
-  projects: undefined
+  projects: undefined,
+  assigned: undefined
 };
 
 export class Store {

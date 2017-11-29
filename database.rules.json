@@ -1,0 +1,21 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid"
+      }
+    },
+    "issues": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      ".indexOn": [
+        "title"
+      ]
+    },
+    "projects": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    }
+  }
+}

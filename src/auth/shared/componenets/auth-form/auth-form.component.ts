@@ -26,6 +26,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
                 <div>
                     <ng-content select="button"></ng-content>
                 </div>
+                <div>
+                    <p>Login with a@a.com , password : 123456 </p>
+                </div>
             </form>
         </div>
     `

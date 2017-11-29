@@ -9,20 +9,25 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
-import { start } from 'repl';
+import { Subject } from 'rxjs/Subject';
+import { Http, Response } from '@angular/http';
+
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 export interface Issue{
     $key: string,
     title: string,
     description: string,
     severity: string,
-    assignTo: string,
+    assignTo: string[],
     foundBy: string,
     location: string,
-    status: boolean,
+    status: string,
     version: string,
     progress: string,
     createdDate: number,
+    projectId: string,
 }
 
 @Injectable()
@@ -30,7 +35,8 @@ export class IssueService{
 
     constructor(
         private store: Store,
-        private db: AngularFireDatabase
+        private db: AngularFireDatabase,
+        private http:Http
     ){}
 
     issues$: Observable<Issue[]> = this.db.list(`issues`).do(next => this.store.set('issues',next));
@@ -65,4 +71,8 @@ export class IssueService{
         }).do(next => this.store.set('issues',next));
     }
 
+    private section$ = new Subject();
+    assigned$ = this.section$.do((next: any)=> this.store.set('assigned', next));
+
+    
 }

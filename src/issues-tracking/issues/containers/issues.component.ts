@@ -13,7 +13,7 @@ import { Subject } from 'rxjs/Subject'
             <div class="issues__title">
                 <h3>Issues List</h3>
                 <input type="text" (keydown)="search($event)" placeholder="Search ..." class="input">
-                <a [routerLink]="['../issues/new']">Create New Issue</a>
+                <a [routerLink]="['../issues/new']"><img src="/img/add.svg"></a>
             </div>
             
             <div *ngIf="issues$ | async as issues;  else loading;">
@@ -35,6 +35,7 @@ import { Subject } from 'rxjs/Subject'
                 </table>
                 <issues-list *ngFor="let issue of issues | orderBy : order : reverse" [issue]="issue" (remove)="onDelete($event)">
                 </issues-list>    
+                
             </div>
 
             <ng-template #loading>
@@ -44,7 +45,7 @@ import { Subject } from 'rxjs/Subject'
 })
 
 export class IssuesComponent implements OnInit, OnDestroy{
-
+    
      constructor(
          private issueService: IssueService,
          private store: Store
@@ -53,7 +54,8 @@ export class IssuesComponent implements OnInit, OnDestroy{
      subscription: Subscription[] = [];
      issues$: Observable<any[]>;
      searchLists: any; //For keyword search
-    
+     products: any[];
+
      ngOnInit(){
         this.issues$ = this.store.select<Issue[]>('issues');
         this.subscription = 

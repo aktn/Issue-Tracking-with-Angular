@@ -70,17 +70,7 @@
         display: flex;
         justify-content: space-between;
         padding: 30px;
-        button {
-            background: #39a1e7;
-            &:hover {
-                background: darken(#1dcbf7, 5%);
-            }
-            &:disabled {
-                opacity: .4;
-                cursor: not-allowed;
-            }
-        }
-        
+      
     }
 
     &__delete{
@@ -95,23 +85,8 @@
                 margin: 0;
             }
         }
-        button{
-            background: #ec3211;
-        }
-    }
-
-    .button{
-        cursor: pointer;
-        outline: 0;
-        border: 0;
-        border-radius: 2px;
-        color: #fff;
-        padding: 10px 18px;
-        font-size: 16px;
-        font-weight: 600;
-        transition: all 0.2s ease-in-out;
-        display: inline-block;
-    }
+         
+    }  
 }
 
 .error {
@@ -123,4 +98,35 @@
     font-size: 14px;
     font-weight: 400;
     margin: 10px 0 0;
+}
+
+.button {
+    cursor: pointer;
+    outline: 0;
+    border: 0;
+    border-radius: 2px;
+    background: #39a1e7;
+    color: #fff;
+    padding: 10px 18px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    display: inline-block;
+    &:hover {
+        background: darken(#39a1e7, 5%);
+    }
+    &--cancel {
+        background: #fff;
+        color: #545e6f;
+        &:hover {
+            background: #fff;
+        }
+    }
+    &--delete {
+        background: #d73a49;
+        align-self: flex-start;
+        &:hover {
+            background: darken(#d73a49, 5%);
+        }
+    }
 }

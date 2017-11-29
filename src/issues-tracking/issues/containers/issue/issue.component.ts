@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
+import { Store } from 'store';
 
 @Component({
     selector: 'issue',
@@ -19,7 +20,7 @@ import 'rxjs/add/operator/switchMap';
                 </h2>
             </div>
             <span *ngIf="issues$ | async as issues; else loading;">
-                <issue-form (create)="createIssue($event)" [issue]="issues" (update)="updateIssue($event)" (remove)="deleteIssue($event)"></issue-form>
+                <issue-form (create)="createIssue($event)" [users]="users" [issue]="issues" (update)="updateIssue($event)" (remove)="deleteIssue($event)" (activateModal)="openModal()"></issue-form>
             </span>
             <ng-template #loading>
                 <p>Loading...</p>
@@ -30,10 +31,13 @@ import 'rxjs/add/operator/switchMap';
 
 export class IssueComponent implements OnInit, OnDestroy{
 
+    users = ['James', 'Michael', 'Kurt', 'Jimmy'];
+
     constructor(
         private issueService: IssueService,
         private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private store: Store,
     ){}
     
     issues$ : Observable<Issue[]>;
@@ -43,6 +47,8 @@ export class IssueComponent implements OnInit, OnDestroy{
         this.subscription = this.issueService.issues$.subscribe();
         this.issues$ = this.route.params.switchMap(param => this.issueService.getIssue(param.id));
     }
+
+    
 
     ngOnDestroy(){
         this.subscription.unsubscribe();
@@ -68,4 +74,5 @@ export class IssueComponent implements OnInit, OnDestroy{
     backToList(){
         this.router.navigate(['issues']);
     }
+
 }

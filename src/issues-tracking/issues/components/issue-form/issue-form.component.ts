@@ -1,6 +1,12 @@
+import { ProjectsService, Project } from './../../../projects/services/projects.service';
 import { Issue } from './../../services/issues/issue.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { Store } from 'store';
 
 @Component({
     selector: 'issue-form',
@@ -77,10 +83,22 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 
                     <label class="label">
                         <h3>Status</h3>
-                        <input type="radio" id="status" value="open" formControlName="status">Open
-                        <input type="radio" id="status" value="close" formControlName="status">Close
-                    </label> 
-
+                        <select formControlName="status">
+                            <option value="">Select Status</option>
+                            <option *ngFor="let status of statusLists" [value]="status">{{ status }}</option>
+                        </select>
+                    </label>
+                    
+                    <label class="label">
+                        <h3>Project</h3>
+                        <div *ngIf="projects$ | async as projects">
+                            <select formControlName="projectName">
+                                <option value="">Select Project</option> 
+                                <option *ngFor="let project of projects" [value]="project.$key">{{ project.projectName }}</option>
+                            </select>
+                        </div>
+                    </label>
+                    
                 </div>
 
                 <div class="issue-form__submit">
@@ -90,7 +108,8 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
                     </div>
 
                     <div class="issue-form__delete" *ngIf="exists">
-                        <button type="button" class="button button-delete" (click)="removeIssue()">Delete</button>
+                        <button type="button" class="button button--cancel" (click)="removeIssue()">Cancel</button>
+                        <button type="button" class="button button--delete" (click)="removeIssue()">Delete</button>
                     </div>
                 </div>
             </form>
@@ -98,14 +117,19 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
     `
 })
 
-export class IssueFormComponent implements OnChanges{
+export class IssueFormComponent implements OnChanges, OnDestroy{
 
     constructor(
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private projectService: ProjectsService,
+        private store: Store
     ){}
 
     @Input()
     issue: Issue;
+
+    projects$: Observable<Project[]>;
+    subscription: Subscription;
 
     ngOnChanges(changes: SimpleChanges){
         if(this.issue && this.issue.title){
@@ -115,13 +139,19 @@ export class IssueFormComponent implements OnChanges{
         const value = this.issue;
         this.form.patchValue(value);
         
+        this.projects$ = this.store.select<Project[]>('projects');
+        this.subscription = this.projectService.projects$.subscribe();
     }
 
-    users = ['James', 'Michael', 'Kurt', 'Jimmy'];
+    ngOnDestroy(){
+        this.subscription.unsubscribe();
+    }
 
     severity = [ 'low', 'medium', 'high' ];
 
     types = ['Usability', 'Accessibility', 'Content', 'Other'];
+
+    statusLists = ['open', 'handle', 'close'];
 
     today = Date.now();
 
@@ -138,8 +168,12 @@ export class IssueFormComponent implements OnChanges{
         progress: ['', Validators.required],
         version: ['', Validators.required],
         type: ['', Validators.required],
+        projectName: ['', Validators.required],
         createdDate: [this.today, Validators.required] 
     });
+
+    @Input()
+    users: any;
 
     @Output()
     create = new EventEmitter<Issue>();

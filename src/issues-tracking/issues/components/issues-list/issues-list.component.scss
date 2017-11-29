@@ -10,8 +10,6 @@
             padding-bottom: 30px;
             border-bottom: 1px solid #e3e6e8;
         }
-
-        
     }   
     
 }
@@ -28,6 +26,9 @@
         background: #2ecc71;
     }
     &.medium {
+        background: #2f7de4;
+    }
+    &.high {
         background: #c0392b;
     }
 }
