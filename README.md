@@ -8,4 +8,4 @@ yarn install
 
 yarn start
 
-https://issue-tracking-3a92b.firebaseapp.com/issues
+https://issue-tracking-3a92b.firebaseapp.com/issues/auth/login

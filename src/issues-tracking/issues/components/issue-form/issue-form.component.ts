@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { Store } from 'store';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'issue-form',
@@ -108,7 +109,7 @@ import { Store } from 'store';
                     </div>
 
                     <div class="issue-form__delete" *ngIf="exists">
-                        <button type="button" class="button button--cancel" (click)="removeIssue()">Cancel</button>
+                        <button type="button" class="button button--cancel" (click)="cancel()">Cancel</button>
                         <button type="button" class="button button--delete" (click)="removeIssue()">Delete</button>
                     </div>
                 </div>
@@ -122,7 +123,8 @@ export class IssueFormComponent implements OnChanges, OnDestroy{
     constructor(
         private fb: FormBuilder,
         private projectService: ProjectsService,
-        private store: Store
+        private store: Store,
+        private router: Router
     ){}
 
     @Input()
@@ -198,6 +200,10 @@ export class IssueFormComponent implements OnChanges, OnDestroy{
 
     removeIssue(){
         this.remove.emit(this.form.value);
+    }
+
+    cancel(){
+        this.router.navigate(['issues']);
     }
 
 
