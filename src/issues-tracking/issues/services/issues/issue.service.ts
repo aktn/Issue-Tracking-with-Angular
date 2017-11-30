@@ -71,8 +71,15 @@ export class IssueService{
         }).do(next => this.store.set('issues',next));
     }
 
-    private section$ = new Subject();
-    assigned$ = this.section$.do((next: any)=> this.store.set('assigned', next));
+    /*
+    * Backend with NodeJS & MongoDB
+    */
+    getIssueFromMongo(): Observable<any[]>{
+        return this.http
+            .get('http://localhost:8080/api/issue')
+            .map((response: Response) => response.json())
+            .catch((error: any) => Observable.throw(error.json()));
+    }
 
     
 }

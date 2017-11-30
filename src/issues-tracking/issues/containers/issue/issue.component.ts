@@ -20,7 +20,7 @@ import { Store } from 'store';
                 </h2>
             </div>
             <span *ngIf="issues$ | async as issues; else loading;">
-                <issue-form (create)="createIssue($event)" [users]="users" [issue]="issues" (update)="updateIssue($event)" (remove)="deleteIssue($event)" (activateModal)="openModal()"></issue-form>
+                <issue-form (create)="createIssue($event)" [users]="users" [issue]="issues" (update)="updateIssue($event)" (remove)="deleteIssue($event)"></issue-form>
             </span>
             <ng-template #loading>
                 <p>Loading...</p>
@@ -46,6 +46,7 @@ export class IssueComponent implements OnInit, OnDestroy{
     ngOnInit(){
         this.subscription = this.issueService.issues$.subscribe();
         this.issues$ = this.route.params.switchMap(param => this.issueService.getIssue(param.id));
+
     }
 
     

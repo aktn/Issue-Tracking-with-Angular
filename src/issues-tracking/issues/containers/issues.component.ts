@@ -41,6 +41,14 @@ import { Subject } from 'rxjs/Subject'
             <ng-template #loading>
                 <p>Loading....</p>
             </ng-template>
+
+            <!--<div *ngFor="let data of dataFromMongo">
+                {{ data.title }}
+                {{ data.description }}
+                {{ data.status }}
+                {{ data.severity }}
+                {{ data.progress }}
+            </div> -->
     `
 })
 
@@ -54,7 +62,7 @@ export class IssuesComponent implements OnInit, OnDestroy{
      subscription: Subscription[] = [];
      issues$: Observable<any[]>;
      searchLists: any; //For keyword search
-     products: any[];
+     dataFromMongo: any;
 
      ngOnInit(){
         this.issues$ = this.store.select<Issue[]>('issues');
@@ -63,6 +71,8 @@ export class IssuesComponent implements OnInit, OnDestroy{
             this.issueService.issues$.subscribe(), 
             this.issueService.keywordSearch(this.startAt, this.endAt).subscribe() 
         ]
+        this.issueService.getIssueFromMongo().subscribe((data: any[]) => this.dataFromMongo = data);
+        
      }
 
      onDelete(event: Issue){
